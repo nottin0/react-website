@@ -11,6 +11,11 @@ useEffect(() => {
   setTodos(existingTodos ? JSON.parse(existingTodos) : [])
 }), [];
 
+
+useEffect(() => {
+  document.title = `todo list | ` + `${todos.length} todos`;
+}, [todos]); // creates title for page seen in tab bar
+
 function addTodo(event) {
   event.preventDefault(); // prevent the form from resetting on reload or submit
   const next = [...todos, todoText.current.value]; // copy the todos array and add the new todo
@@ -32,6 +37,8 @@ return (
       <input type = 'submit' value='add Todo' />
       <button onClick={() => setTodos([])} type='clear'>clear</button>
     </form>
+
+    <p>you have {todos.length} things to do... good luck!</p>
   </div>
 )
 
