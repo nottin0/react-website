@@ -3,46 +3,67 @@ import cat from './assets/cat.gif'
 import './App.css'
 
 function App() {
-const [todos, setTodos] = useState([]);
-const todoText = useRef();
+  const [todos, setTodos] = useState([]);
+  const todoText = useRef();
 
-useEffect(() => {
-  const existingTodos = localStorage.getItem('todos');
-  setTodos(existingTodos ? JSON.parse(existingTodos) : [])
-}), [];
+  useEffect(() => {
+    const existingTodos = localStorage.getItem('todos');
+    setTodos(existingTodos ? JSON.parse(existingTodos) : []);
+  }, []);
 
+  useEffect(() => {
+    document.title = `todo list | ${todos.length} todos`;
+  }, [todos]);
 
-useEffect(() => {
-  document.title = `todo list | ` + `${todos.length} todos`;
-}, [todos]); // creates title for page seen in tab bar
+  function addTodo(event) {
+    event.preventDefault();
+    const next = [...todos, { text: todoText.current.value, completed: false }];
+    setTodos(next);
+    localStorage.setItem('todos', JSON.stringify(next));
+    todoText.current.value = '';
+  }
 
-function addTodo(event) {
-  event.preventDefault(); // prevent the form from resetting on reload or submit
-  const next = [...todos, todoText.current.value]; // copy the todos array and add the new todo
-  setTodos(next); // set the new todos array
-  localStorage.setItem('todos', JSON.stringify(next)); // grabs the todo data from local storage
-  todoText.current.value = ''; // clear the input field
-}
+  function clearTodos() {
+    setTodos([]);
+    localStorage.setItem('todos', JSON.stringify([]));
+  }
 
-return (
-  <div>
-    <h1>todo list</h1>
-    <img src={cat} alt='cat kissing camera' />
-    <ul>
-      {todos.map(todo => (<li key={todo}>{todo}</li>))}
-    </ul>
+  function toggleTodo(index) {
+    const next = todos.map((todo, i) => 
+      i === index ? { ...todo, completed: !todo.completed } : todo
+    );
+    setTodos(next);
+    localStorage.setItem('todos', JSON.stringify(next));
+  }
 
-    <form onSubmit={addTodo}>
-      <input type='text' placeholder='What you gotta do?' ref={todoText}/>
-      <input type = 'submit' value='add Todo' />
-      <button onClick={() => setTodos([])} type='clear'>clear</button>
-    </form>
+  return (
+    <div>
+      <h1>todo list</h1>
+      <img src={cat} alt='cat kissing camera' />
+      {todos.length > 0 && (
+        <ul>
+          {todos.map((todo, index) => (
+            <li key={index} style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
+              <input 
+                type="checkbox" 
+                checked={todo.completed} 
+                onChange={() => toggleTodo(index)} 
+              />
+              {todo.text}
+            </li>
+          ))}
+        </ul>
+      )}
 
-    <p>you have {todos.length} things to do... good luck!</p>
-  </div>
-)
+      <form onSubmit={addTodo}>
+        <input type='text' placeholder='What you gotta do?' ref={todoText} />
+        <input type='submit' value='add Todo' />
+        <button onClick={clearTodos} type='button'>clear</button>
+      </form>
 
-
+      <p>you have {todos.length} things to do... good luck!</p>
+    </div>
+  )
 }
 
 export default App
