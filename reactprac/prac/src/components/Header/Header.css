@@ -1,0 +1,25 @@
+.header {
+  width: 100%;
+  padding: 1rem 0;
+  background-color: #1a1a1a;
+  margin-bottom: 2rem;
+}
+
+.header-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 2em;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+.header-links {
+  display: flex;
+  align-items: center
