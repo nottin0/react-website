@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [displayName, setDisplayName] = useState('');
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
   const navigate = useNavigate();  
@@ -25,6 +26,12 @@ function SignUp() {
   return (
    <div className='auth-container'>
     <form className="auth-form" onSubmit={handleSignUp}>
+      <input
+        type="text"
+        value={displayName}
+        onChange={(e) => setDisplayName(e.target.value)}
+        placeholder="Username"
+        />
       <input
         type="email"
         value={email}

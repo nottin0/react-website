@@ -22,11 +22,11 @@ const Header = () => {
           <Link to="/">Home</Link>
           {!user && <Link to="/signup">Sign Up</Link>}
           {!user && <Link to="/login">Login</Link>}
-          {user && <span>hi, {user.email}</span>}
+          {user && <span>hi, {user.displayName}</span>}
           {user && <button onClick={handleLogout}>Logout</button>}
         </nav>
         <div className="header-links">
-          <a href="https://github.com/nottin0" className="github-link">
+          <a href="https://github.com/tino-sv" className="github-link">
             <img src={github} alt="github logo" height="30px" />
           </a>
         </div>
