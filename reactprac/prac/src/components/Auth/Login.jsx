@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import supabase from "../../supabaseClient";
 import { useAuth } from "../../AuthContext.jsx";
 import "./Auth.css";
@@ -12,7 +12,7 @@ function Login() {
    const { setUser } = useAuth();
 
    const handleLogin = async (e) => {
-      //e.preventDefault();
+      e.preventDefault();
       const { error, user } = await supabase.auth.signInWithPassword({
          email,
          password,
@@ -26,7 +26,7 @@ function Login() {
       } else {
          setError(null);
          setUser(user);
-         navigate("/");
+         alert("Logged in successfully! Please select Home to view your todos.");
       }
    };
 
@@ -50,6 +50,10 @@ function Login() {
             </button>
             {error && <p>{error}</p>}
          </form>
+         <div className="nav">
+            <Link to="/signup">Sign Up</Link>
+            <Link to="/">Home</Link>
+         </div>
       </div>
    );
 }

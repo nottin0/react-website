@@ -45,3 +45,7 @@
   color: red;
   margin-top: 10px;
 }
+.nav {
+  display: flex;
+  gap: 10px;
+}
