@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import supabase from '../../supabaseClient';
-import { useAuth } from '../../AuthContext';
+import { useAuth } from '../../AuthContext.jsx';
 import './Auth.css';
 
 function Login() {

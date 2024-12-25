@@ -8,7 +8,7 @@ import { AuthProvider } from "./AuthContext";
 
 function App() {
    return (
-      <AuthProvider>
+     <AuthProvider>
       <Router>
          <Routes>
             <Route path="/signup" element={<SignUp/>} />
