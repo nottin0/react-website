@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import "./TodoApp.css";
 import cat from "../../assets/cat.gif";
-import github from "../../assets/github-mark-white.svg";
 import Header from "../Header";
 
 function TodoApp() {
