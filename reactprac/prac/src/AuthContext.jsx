@@ -9,12 +9,20 @@ export const AuthProvider = ({ children }) => {
 useEffect(() => {
   const getSession = async () => {
     const { data: { session } } = await supabase.auth.getSession();
-    setUser(session?.user ?? null);
+    if (session) {
+      const { data: { user_metadata} } = await supabase.auth.getUser();
+      setUser({ ...session.user, displayName: user_metadata.displayName})
+    }
   };
 
   getSession();
   const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
-    setUser(session?.user ?? null);
+    if (session) {
+      const { data: user_metadata } = await supabase.auth.getUser();
+      setUser({ ...session.user, displayName: user_metadata.displayName });
+    } else {
+      setUser(null);
+    }
   });
 
   return () => {
@@ -23,7 +31,7 @@ useEffect(() => {
 }, []);
 
 return (
-  <AuthContext.Provider value={{ user }}>
+  <AuthContext.Provider value={{ user, setUser }}>
     {children}
   </AuthContext.Provider>
 );

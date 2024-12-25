@@ -27,7 +27,7 @@ const Header = () => {
         </nav>
         <div className="header-links">
           <a href="https://github.com/tino-sv" className="github-link">
-            <img src={github} alt="github logo" height="30px" />
+            <img src={github} alt="github logo" height="20px" />
           </a>
         </div>
       </div>
