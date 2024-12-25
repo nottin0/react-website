@@ -84,7 +84,7 @@ function TodoApp() {
             </button>
          </form>
          <p>You have {todos.length} things to do... good luck!</p>
-         <footer> version 0.1.23 </footer>
+         <footer> version 0.1.24 </footer>
          <footer> built by tinodev ❤️ </footer>
       </div>
    );
