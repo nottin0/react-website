@@ -112,3 +112,139 @@ button:focus-visible {
     color: #213547;
   }
 }
+
+.todo-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.todo-header {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.todo-header img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #646cff;
+  padding: 5px;
+}
+
+.todo-form {
+  background: #333;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  margin-bottom: 2rem;
+}
+
+.todo-input-group {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.todo-input {
+  flex: 1;
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  background: #1a1a1a;
+  color: white;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.todo-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #646cff;
+}
+
+.todo-list {
+  list-style: none;
+  padding: 0;
+}
+
+.todo-item {
+  background: #333;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.todo-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.todo-checkbox {
+  width: 20px;
+  height: 20px;
+  accent-color: #646cff;
+}
+
+.todo-text {
+  flex: 1;
+  font-size: 1.1rem;
+}
+
+.todo-category {
+  background: #646cff;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: white;
+}
+
+.todo-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.todo-button {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.todo-button-primary {
+  background: #646cff;
+  color: white;
+}
+
+.todo-button-danger {
+  background: #ff4646;
+  color: white;
+}
+
+.todo-stats {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.2rem;
+  color: #888;
+}
+
+@media (prefers-color-scheme: light) {
+  .todo-form,
+  .todo-item {
+    background: #f5f5f5;
+  }
+  
+  .todo-input {
+    background: white;
+    color: #213547;
+  }
+}

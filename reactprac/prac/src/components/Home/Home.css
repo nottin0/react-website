@@ -1,0 +1,146 @@
+.home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #242424;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+.home-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  flex: 1;
+}
+
+.auth-prompt {
+  background-color: #333;
+  padding: 2rem;
+  border-radius: 8px;
+  margin: 2rem 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.auth-button {
+  padding: 0.8rem 1.5rem;
+  font-size: 1.1em;
+  border-radius: 4px;
+  border: 1px solid #646cff;
+  background-color: #646cff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.25s;
+  text-decoration: none;
+}
+
+.auth-button:hover {
+  background-color: #535bf2;
+}
+
+.user-welcome {
+  background-color: #333;
+  padding: 2rem;
+  border-radius: 8px;
+  margin: 2rem 0;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.todo-button {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  font-size: 1.1em;
+  border-radius: 4px;
+  border: 1px solid #646cff;
+  background-color: #646cff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.25s;
+  text-decoration: none;
+  margin-top: 1rem;
+}
+
+.todo-button:hover {
+  background-color: #535bf2;
+}
+
+.features {
+  background-color: #333;
+  padding: 2rem;
+  border-radius: 8px;
+  margin: 2rem 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.features h3 {
+  margin-bottom: 1.5rem;
+  font-size: 1.5em;
+}
+
+.features ul {
+  list-style-type: none;
+  padding: 0;
+  font-size: 1.1em;
+}
+
+.features li {
+  background-color: #1a1a1a;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.features li:hover {
+  background-color: #2a2a2a;
+}
+
+.home-footer {
+  text-align: center;
+  padding: 2rem;
+  background-color: #1a1a1a;
+  margin-top: auto;
+}
+
+.home-footer p {
+  margin: 0.5rem 0;
+  font-size: 0.9em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+@media (prefers-color-scheme: light) {
+  .home {
+    background-color: #ffffff;
+    color: #213547;
+  }
+
+  .auth-prompt,
+  .user-welcome,
+  .features {
+    background-color: #f0f0f0;
+  }
+
+  .features li {
+    background-color: #ffffff;
+    color: #213547;
+  }
+
+  .features li:hover {
+    background-color: #f5f5f5;
+  }
+
+  .home-footer {
+    background-color: #f0f0f0;
+  }
+
+  .home-footer p {
+    color: #666;
+  }
+} 

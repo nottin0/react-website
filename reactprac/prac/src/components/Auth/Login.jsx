@@ -3,6 +3,7 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import supabase from "../../supabaseClient";
 import { useAuth } from "../../AuthContext.jsx";
 import "./Auth.css";
+import { toast } from 'react-toastify';
 
 function Login() {
    const [email, setEmail] = useState("");
@@ -26,7 +27,8 @@ function Login() {
       } else {
          setError(null);
          setUser(user);
-         alert("Logged in successfully! Please select Home to view your todos.");
+         toast.success("Logged in successfully!")
+         navigate('/todos');
       }
    };
 

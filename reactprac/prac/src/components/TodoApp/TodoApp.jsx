@@ -7,6 +7,10 @@ function TodoApp() {
    const [todos, setTodos] = useState([]);
    const todoText = useRef();
    const todoCategory = useRef();
+   const [categories, setCategories] = useState(() => {
+      const savedCategories = localStorage.getItem('categories');
+      return savedCategories ? JSON.parse(savedCategories) : [];
+   });
 
    useEffect(() => {
       const existingTodos = localStorage.getItem("todos");
@@ -14,20 +18,27 @@ function TodoApp() {
    }, []);
 
    useEffect(() => {
-      document.title = `todo list | ${todos.length} todos`;
+      document.title = `Todo App`;
    }, [todos]);
 
-   function addTodo() {
+   function addTodo(event) {
+      event.preventDefault();
+      const newCategory = todoCategory.current.value;
+      if (newCategory && !categories.includes(newCategory)) {
+         const updatedCategories = [...categories, newCategory];
+         setCategories(updatedCategories);
+         localStorage.setItem('categories', JSON.stringify(updatedCategories));
+      }
+      
       const next = [
          ...todos,
          {
             text: todoText.current.value,
-            category: todoCategory.current.value,
+            category: newCategory,
             completed: false,
          },
       ];
       setTodos(next);
-      event.preventDefault();
       localStorage.setItem("todos", JSON.stringify(next));
       todoText.current.value = "";
       todoCategory.current.value = "";
@@ -47,45 +58,67 @@ function TodoApp() {
    }
 
    return (
-      <div>
+      <div className="todo-container">
          <Header />
-         <img src={cat} alt="cat kissing camera" />
+         <div className="todo-header">
+            <img src={cat} alt="cat kissing camera" />
+            <h1>My Todos</h1>
+         </div>
+         
+         <form className="todo-form" onSubmit={addTodo}>
+            <div className="todo-input-group">
+               <input
+                  className="todo-input"
+                  type="text"
+                  placeholder="What you gotta do?"
+                  ref={todoText}
+               />
+               <input
+                  className="todo-input"
+                  type="text"
+                  placeholder="Category"
+                  ref={todoCategory}
+               />
+            </div>
+            <div className="todo-buttons">
+               <button className="todo-button todo-button-primary" type="submit">Add</button>
+               <button className="todo-button todo-button-danger" type="button" onClick={clearTodos}>
+                  Clear All
+               </button>
+            </div>
+         </form>
+
          {todos.length > 0 && (
-            <ul>
+            <ul className="todo-list">
                {todos.map((todo, index) => (
                   <li
                      key={index}
+                     className="todo-item"
                      style={{
-                        textDecoration: todo.completed
-                           ? "line-through"
-                           : "none",
+                        textDecoration: todo.completed ? "line-through" : "none",
                      }}
                   >
                      <input
                         type="checkbox"
+                        className="todo-checkbox"
                         checked={todo.completed}
                         onChange={() => toggleTodo(index)}
                      />
-                     {todo.text} - <em>{todo.category}</em>
+                     <span className="todo-text">{todo.text}</span>
+                     <span className="todo-category">{todo.category}</span>
                   </li>
                ))}
             </ul>
          )}
-         <form onSubmit={addTodo}>
-            <input
-               type="text"
-               placeholder="What you gotta do?"
-               ref={todoText}
-            />
-            <input type="text" placeholder="Category" ref={todoCategory} />
-            <button type="submit">Add</button>
-            <button type="button" onClick={clearTodos}>
-               Clear
-            </button>
-         </form>
-         <p>You have {todos.length} things to do... good luck!</p>
-         <footer> version 0.1.3</footer>
-         <footer> built by tinodev ❤️ </footer>
+         
+         <div className="todo-stats">
+            <p>You have {todos.length} things to do... good luck!</p>
+         </div>
+         
+         <footer className="home-footer">
+            <p>Version 0.2</p>
+            <p>Built with ❤️ by tinodev</p>
+         </footer>
       </div>
    );
 }
