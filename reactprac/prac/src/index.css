@@ -136,3 +136,18 @@ button:focus-visible {
     color: #213547;
   }
 }
+
+@media (min-width: 2560px) {
+  body {
+    font-size: 18px;
+  }
+  
+  #root {
+    max-width: 2400px;
+  }
+  
+  .home-content,
+  .todo-container {
+    max-width: 2000px;
+  }
+}

@@ -1,0 +1,12 @@
+.home-footer {
+   text-align: center;
+   padding: 2rem;
+   background-color: #1a1a1a;
+   margin-top: auto;
+ }
+ 
+ .home-footer p {
+   margin: 0.5rem 0;
+   font-size: 0.9em;
+   color: rgba(255, 255, 255, 0.6);
+ }

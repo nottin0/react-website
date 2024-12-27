@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import "./TodoApp.css";
 import cat from "../../assets/cat.gif";
 import Header from "../Header";
+import Footer from "../Footer/Footer";
 
 function TodoApp() {
    const [todos, setTodos] = useState([]);
@@ -115,10 +116,7 @@ function TodoApp() {
             <p>You have {todos.length} things to do... good luck!</p>
          </div>
          
-         <footer className="home-footer">
-            <p>Version 0.2</p>
-            <p>Built with ❤️ by tinodev</p>
-         </footer>
+       <Footer /> 
       </div>
    );
 }

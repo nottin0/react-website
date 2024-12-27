@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
 import Header from "../Header";
 import "./Home.css";
+import Footer from "../Footer/Footer";
 
 function Home() {
    const { user } = useAuth();
@@ -27,20 +28,17 @@ function Home() {
                   <Link to="/todos" className="todo-button">Go to My Todos</Link>
                </div>
             )}
-            <section className="features">
-               <h3>Features</h3>
-               <ul>
-                  <li>Create and manage your todo lists</li>
-                  <li>Organize tasks by categories</li>
-                  <li>Track completed items</li>
-                  <li>Data persistence across sessions</li>
-               </ul>
+            <section className="about">
+               <h3>about this site</h3>
+               <p>This is a simple todo app built with React and Supabase. <br />
+                  It's a fullstack web app that allows users to create, read, update, and delete todos. <br />
+                  It uses Supabase for user authentication and data storage. <br />
+                  I'm still learning (self-taught) how to be a fullstack dev, it's not great, but it's a start! <br />
+                  Check out the code on <a href="https://github.com/tino-sv/react-website" target="_blank" rel="noreferrer">GitHub</a>
+               </p>
             </section>
          </main>
-         <footer className="home-footer">
-            <p>Version 0.2</p>
-            <p>Built with ❤️ by tinodev</p>
-         </footer>
+        <Footer />    
       </div>
    );
 }
