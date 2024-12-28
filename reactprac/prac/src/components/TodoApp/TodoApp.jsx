@@ -3,9 +3,11 @@ import "./TodoApp.css";
 import cat from "../../assets/cat.gif";
 import Header from "../Header";
 import Footer from "../Footer/Footer";
+import { toast } from 'react-toastify';
 
 function TodoApp() {
    const [todos, setTodos] = useState([]);
+   const [toastShown, setToastShown] = useState(Array(todos.length).fill(false));
    const todoText = useRef();
    const todoCategory = useRef();
    const [categories, setCategories] = useState(() => {
@@ -50,12 +52,30 @@ function TodoApp() {
       localStorage.setItem("todos", JSON.stringify([]));
    }
 
-   function toggleTodo(index) {
-      const next = todos.map((todo, i) =>
-         i === index ? { ...todo, completed: !todo.completed } : todo,
-      );
+   function deleteTodo(index) {
+      event.preventDefault();
+      const next = todos.filter((todo, i) => i !== index);
       setTodos(next);
       localStorage.setItem("todos", JSON.stringify(next));
+   }
+
+   function toggleTodo(index) {
+      const todo = todos[index];
+      if (!toastShown[index]) {
+         toast.info("click checkbox again to delete");
+         setToastShown((prev) => {
+            const newToastShown = [...prev];
+            newToastShown[index] = true; // mark as shown
+            return newToastShown;
+         })
+      }
+      if (todo.completed) {
+         deleteTodo(index); // removes the todo from the list once user is done
+      } else {
+         const next = todos.map((todo, i) => i === index ? { ...todo, completed: !todo.completed } : todo);
+         setTodos(next);
+         localStorage.setItem("todos", JSON.stringify(next));
+      }
    }
 
    return (
