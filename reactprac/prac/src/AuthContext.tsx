@@ -1,10 +1,15 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { User } from '@supabase/supabase-js';
 import supabase from './supabaseClient';
 
-const AuthContext = createContext();
+const AuthContext = createContext<{
+  user: (User & { displayName?: string }) | null;
+  setUser: (user: (User & { displayName?: string }) | null) => void;
+  isLoading: boolean;
+} | undefined>(undefined);
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [user, setUser] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -14,7 +19,9 @@ export const AuthProvider = ({ children }) => {
         const { data: { session } } = await supabase.auth.getSession();
         if (session) {
           const { data: { user } } = await supabase.auth.getUser();
-          setUser({ ...session.user, displayName: user.user_metadata.displayName });
+          if (user) {
+            setUser({ ...session.user, displayName: user.user_metadata.displayName });
+          }
         }
       } catch (error) {
         console.error('Error checking auth status:', error);
@@ -22,12 +29,13 @@ export const AuthProvider = ({ children }) => {
         setIsLoading(false);
       }
     };
-
     getSession();
-    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
+    const { data: authListener } = supabase.auth.onAuthStateChange(async (event: string, session: any) => {
       if (session) {
         const { data: { user } } = await supabase.auth.getUser();
-        setUser({ ...session.user, displayName: user.user_metadata.displayName });
+        if (user) {
+          setUser({ ...session.user, displayName: user.user_metadata.displayName });
+        }
       } else {
         setUser(null);
       }

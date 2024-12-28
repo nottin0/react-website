@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import supabase from '../../supabaseClient';
 import './Auth.css';
+import supabase from '../../supabaseClient';
 
 function SignUp() {
   const [email, setEmail] = useState('');
@@ -11,7 +11,7 @@ function SignUp() {
   const [message, setMessage] = useState(null);
   const navigate = useNavigate();  
 
-  const handleSignUp = async (e) => {
+  const handleSignUp = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     const { error } = await supabase.auth.signUp({
       email,
@@ -22,12 +22,11 @@ function SignUp() {
         },
       },
     });
-
     if (error) {
-      setError(error.message);
+      setError(error.message as any);
     } else {
       setError(null);
-      setMessage('Check your email for the confirmation link');
+      setMessage('Check your email for the confirmation link' as any);
       navigate('/login');
     }
   };

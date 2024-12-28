@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
-import Header from "../Header";
 import "./Home.css";
 import Footer from "../Footer/Footer";
+import Header from "../Header/Header";
 
 function Home() {
-   const { user } = useAuth();
+   const { user } = useAuth() as { user: any };
 
    return (
       <div className="home">
@@ -23,7 +23,7 @@ function Home() {
                </div>
             ) : (
                <div className="user-welcome">
-                  <h2>yo, {user.displayName}!</h2>
+                  <h2>yo, {user.user_metadata?.displayName}!</h2>
                   <p>got stuff to do?</p>
                   <Link to="/todos" className="todo-button">Go to My Todos</Link>
                </div>

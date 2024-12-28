@@ -1,16 +1,23 @@
 import { useEffect, useState, useRef } from "react";
 import "./TodoApp.css";
 import cat from "../../assets/cat.gif";
-import Header from "../Header";
+import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { toast } from 'react-toastify';
+import React from "react";
+
+interface Todo {
+  text: string;
+  category: string;
+  completed: boolean;
+}
 
 function TodoApp() {
-   const [todos, setTodos] = useState([]);
-   const [toastShown, setToastShown] = useState(Array(todos.length).fill(false));
-   const todoText = useRef();
-   const todoCategory = useRef();
-   const [categories, setCategories] = useState(() => {
+   const [todos, setTodos] = useState<Todo[]>([]);
+   const [toastShown, setToastShown] = useState<boolean[]>(Array(todos.length).fill(false));
+   const todoText = useRef<HTMLInputElement>(null);
+   const todoCategory = useRef<HTMLInputElement>(null);
+   const [categories, setCategories] = useState<string[]>(() => {
       const savedCategories = localStorage.getItem('categories');
       return savedCategories ? JSON.parse(savedCategories) : [];
    });
@@ -24,8 +31,10 @@ function TodoApp() {
       document.title = `Todo App`;
    }, [todos]);
 
-   function addTodo(event) {
+   function addTodo(event: React.FormEvent<HTMLFormElement>) {
       event.preventDefault();
+      if (!todoCategory.current || !todoText.current) return;
+      
       const newCategory = todoCategory.current.value;
       if (newCategory && !categories.includes(newCategory)) {
          const updatedCategories = [...categories, newCategory];
@@ -36,7 +45,7 @@ function TodoApp() {
       const next = [
          ...todos,
          {
-            text: todoText.current.value,
+            text: todoText.current?.value,
             category: newCategory,
             completed: false,
          },
@@ -52,14 +61,14 @@ function TodoApp() {
       localStorage.setItem("todos", JSON.stringify([]));
    }
 
-   function deleteTodo(index) {
+   function deleteTodo(index: number, event: React.MouseEvent) {
       event.preventDefault();
       const next = todos.filter((todo, i) => i !== index);
       setTodos(next);
       localStorage.setItem("todos", JSON.stringify(next));
    }
 
-   function toggleTodo(index) {
+   function toggleTodo(index: number) {
       const todo = todos[index];
       if (!toastShown[index]) {
          toast.info("click checkbox again to delete");
@@ -70,7 +79,7 @@ function TodoApp() {
          })
       }
       if (todo.completed) {
-         deleteTodo(index); // removes the todo from the list once user is done
+         deleteTodo(index, event as unknown as React.MouseEvent); // removes the todo from the list once user is done
       } else {
          const next = todos.map((todo, i) => i === index ? { ...todo, completed: !todo.completed } : todo);
          setTodos(next);

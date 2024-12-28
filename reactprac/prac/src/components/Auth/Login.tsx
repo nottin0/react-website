@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import supabase from "../../supabaseClient";
-import { useAuth } from "../../AuthContext.jsx";
+import supabase from "../../supabaseClient.js";
+import { useAuth } from "../../AuthContext.js";
 import "./Auth.css";
 import { toast } from 'react-toastify';
 
 function Login() {
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
-   const [error, setError] = useState(null);
+   const [error, setError] = useState<string | null>(null);
    const navigate = useNavigate();
-   const { setUser } = useAuth();
+   const { setUser } = useAuth() as { setUser: (user: any) => void };
 
-   const handleLogin = async (e) => {
+   const handleLogin = async (e: React.FormEvent) => {
       e.preventDefault();
-      const { error, user } = await supabase.auth.signInWithPassword({
+      const { data: { user }, error } = await supabase.auth.signInWithPassword({
          email,
          password,
       });

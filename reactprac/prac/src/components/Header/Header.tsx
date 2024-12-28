@@ -6,7 +6,7 @@ import "./Header.css";
 import supabase from "../../supabaseClient";
 
 const Header = () => {
-  const { user, setUser } = useAuth();
+  const { user, setUser }: { user: any; setUser: any } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -22,7 +22,7 @@ const Header = () => {
           <Link to="/">Home</Link>
           {!user && <Link to="/signup">Sign Up</Link>}
           {!user && <Link to="/login">Login</Link>}
-          {user && <span>hi, {user.displayName}</span>}
+          {user && <span>hi, {user.user_metadata?.displayName}</span>}
           {user && <button onClick={handleLogout}>Logout</button>}
         </nav>
         <div className="header-links">
