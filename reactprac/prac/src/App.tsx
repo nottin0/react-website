@@ -6,7 +6,7 @@ import Home from "./components/Home";
 import TodoApp from "./components/TodoApp";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./AuthContext";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "./App.css";
 

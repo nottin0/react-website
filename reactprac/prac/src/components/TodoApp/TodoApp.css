@@ -86,6 +86,13 @@ li {
   margin: 5px 0;
   border-radius: 4px;
   color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+li:hover {
+  background-color: #444;
+  opacity: 0.8;
 }
 
 button {
@@ -121,6 +128,10 @@ button:focus-visible {
   li {
     background-color: #f0f0f0;
     color: #213547;
+  }
+  
+  li:hover {
+    background-color: #e0e0e0;
   }
 }
 
@@ -263,4 +274,22 @@ button:focus-visible {
     background: white;
     color: #213547;
   }
+}
+
+.loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  font-size: 1.2rem;
+  color: #646cff;
+}
+
+.todo-error {
+  color: #ff4646;
+  text-align: center;
+  padding: 1rem;
+  background: rgba(255, 70, 70, 0.1);
+  border-radius: 8px;
+  margin: 1rem 0;
 }
