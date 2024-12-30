@@ -62,7 +62,7 @@ function TodoApp() {
         .insert([newTodo]);
 
       if (error) throw error;
-      
+
       toast.success('Todo added successfully!');
       fetchTodos(); // Refresh the list
       todoText.current.value = "";
@@ -73,19 +73,19 @@ function TodoApp() {
   }
 
   async function clearTodos() {
-      try {
-         const { error } = await supabase
-         .from('todos')
-         .delete()
-         .eq('user_id', user?.id);
-   
-         if (error) throw error;
-         
-         toast.success('All todos cleared successfully!');
-         fetchTodos(); // Refresh the list
-      } catch (error) {
-         toast.error('Error clearing todos!');
-      }
+    try {
+      const { error } = await supabase
+        .from('todos')
+        .delete()
+        .eq('user_id', user?.id);
+
+      if (error) throw error;
+
+      toast.success('All todos cleared successfully!');
+      fetchTodos(); // Refresh the list
+    } catch (error) {
+      toast.error('Error clearing todos!');
+    }
   }
 
   async function toggleTodo(id: string, completed: boolean) {
@@ -112,7 +112,7 @@ function TodoApp() {
           .eq('id', id);
 
         if (error) throw error;
-        
+
         toast.success('Todo deleted successfully!');
         fetchTodos(); // Refresh the list
       } catch (error) {
@@ -128,7 +128,7 @@ function TodoApp() {
         <img src={cat} alt="cat kissing camera" />
         <h1>My Todos</h1>
       </div>
-      
+
       <form className="todo-form" onSubmit={addTodo}>
         <div className="todo-input-group">
           <input
@@ -168,7 +168,7 @@ function TodoApp() {
                 type="checkbox"
                 className="todo-checkbox"
                 checked={todo.completed}
-                onClick={() => toggleTodo(todo.id, todo.completed)}
+                onChange={() => toggleTodo(todo.id, todo.completed)}
               />
               <span className="todo-text">{todo.text}</span>
               <span className="todo-category">{todo.category}</span>
@@ -176,13 +176,13 @@ function TodoApp() {
           ))}
         </ul>
       )}
-      
+
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <div className="todo-stats">
         <p>You have {todos.length} things to do... good luck!</p>
       </div>
-      
-      <Footer /> 
+
+      <Footer />
     </div>
   );
 }
