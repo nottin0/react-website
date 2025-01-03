@@ -35,9 +35,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
           setUser({ ...session.user, displayName: user.user_metadata.displayName });
+          localStorage.setItem('supabaseSession', JSON.stringify(session));
         }
       } else {
         setUser(null);
+        localStorage.removeItem('supabaseSession');
       }
     });
 

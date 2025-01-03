@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Auth.css';
 import supabase from '../../supabaseClient';
 
@@ -32,30 +32,37 @@ function SignUp() {
   };
 
   return (
-    <div className='auth-container'>
-      <form className="auth-form" onSubmit={handleSignUp}>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-gray-100">
+      <form className="bg-gray-800 p-8 rounded-lg shadow-lg" onSubmit={handleSignUp}>
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          className="w-full p-2 mb-4 rounded bg-gray-700 border border-gray-600"
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className="w-full p-2 mb-4 rounded bg-gray-700 border border-gray-600"
         />
         <input
           type="text"
           placeholder="Display Name"
           value={displayName}
           onChange={(e) => setDisplayName(e.target.value)}
+          className="w-full p-2 mb-4 rounded bg-gray-700 border border-gray-600"
         />
-        <button type="submit">Sign Up</button>
-        {error && <p>{error}</p>}
-        {message && <p>{message}</p>}
+        <button type="submit" className="w-full p-2 bg-teal-400 text-gray-900 rounded font-bold transition-colors hover:bg-teal-300">Sign Up</button>
+        {error && <p className="text-red-500 mt-4">{error}</p>}
+        {message && <p className="text-teal-400 mt-4">{message}</p>}
       </form>
+      <div className="flex gap-4 mt-4">
+        <Link to="/login" className="text-teal-400 hover:underline">Login</Link>
+        <Link to="/" className="text-teal-400 hover:underline">Home</Link>
+      </div>
     </div>
   );
 }

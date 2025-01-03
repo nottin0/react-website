@@ -2,9 +2,9 @@ import React from "react";
 
 function Footer() {
   return (
-    <footer className="home-footer">
-      <p>Version 0.2.8</p>
-      <p>Built with ❤️ by tinodev</p>
+    <footer className="text-center py-8 bg-gray-900 mt-auto">
+      <p className="text-gray-400">Version 0.3</p>
+      <p className="text-gray-400">Built with ❤️ by tinodev</p>
     </footer>
   )
 }

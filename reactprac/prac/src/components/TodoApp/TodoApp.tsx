@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from "react";
-import "./TodoApp.css";
 import cat from "../../assets/cat.gif";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
@@ -122,64 +121,60 @@ function TodoApp() {
   }
 
   return (
-    <div className="todo-container">
+    <div className="max-w-4xl mx-auto p-4">
       <Header />
-      <div className="todo-header">
-        <img src={cat} alt="cat kissing camera" />
-        <h1>My Todos</h1>
+      <div className="flex items-center gap-4 mb-8">
+        <img src={cat} alt="cat kissing camera" className="w-24 h-24 rounded-full border-4 border-teal-400" />
+        <h1 className="text-4xl">My Todos</h1>
       </div>
 
-      <form className="todo-form" onSubmit={addTodo}>
-        <div className="todo-input-group">
+      <form className="bg-gray-800 p-8 rounded-lg shadow-lg mb-8" onSubmit={addTodo}>
+        <div className="flex gap-4 mb-4">
           <input
-            className="todo-input"
+            className="flex-1 p-4 rounded bg-gray-700 border border-gray-600"
             type="text"
             placeholder="What you gotta do?"
             ref={todoText}
           />
           <input
-            className="todo-input"
+            className="flex-1 p-4 rounded bg-gray-700 border border-gray-600"
             type="text"
             placeholder="Category"
             ref={todoCategory}
           />
         </div>
-        <div className="todo-buttons">
-          <button className="todo-button todo-button-primary" type="submit">Add</button>
-          <button className="todo-button todo-button-danger" type="button" onClick={clearTodos}>
+        <div className="flex gap-4">
+          <button className="flex-1 p-4 bg-teal-400 text-gray-900 rounded font-bold transition-colors hover:bg-teal-300" type="submit">Add</button>
+          <button className="flex-1 p-4 bg-red-500 text-white rounded font-bold transition-colors hover:bg-red-400" type="button" onClick={clearTodos}>
             Clear All
           </button>
         </div>
       </form>
 
       {todos.length > 0 && (
-        <ul className="todo-list">
+        <ul className="space-y-4">
           {todos.map((todo, index) => (
             <li
               key={index}
-              className="todo-item"
-              style={{
-                textDecoration: todo.completed ? "line-through" : "none",
-              }}
+              className={`p-4 rounded bg-gray-800 flex items-center gap-4 ${todo.completed ? "line-through" : ""}`}
               onDoubleClick={() => handleTodoDoubleClick(todo.id)}
               title="Double-click to delete"
             >
               <input
                 type="checkbox"
-                className="todo-checkbox"
+                className="w-6 h-6 accent-teal-400"
                 checked={todo.completed}
                 onChange={() => toggleTodo(todo.id, todo.completed)}
               />
-              <span className="todo-text">{todo.text}</span>
-              <span className="todo-category">{todo.category}</span>
+              <span className="flex-1">{todo.text}</span>
+              <span className="bg-teal-400 text-gray-900 px-2 py-1 rounded-full">{todo.category}</span>
             </li>
           ))}
         </ul>
       )}
 
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <div className="todo-stats">
-        <p>You have {todos.length} things to do... good luck!</p>
+      <div className="text-center mt-8">
+        <p className="text-lg text-gray-400">You have {todos.length} things to do... good luck!</p>
       </div>
 
       <Footer />
