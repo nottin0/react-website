@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, ReactNode } from "react";
 import cat from "../../assets/cat.gif";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
@@ -8,6 +8,7 @@ import { useAuth } from "../../AuthContext";
 import React from "react";
 
 interface Todo {
+  date: ReactNode;
   id: string;
   text: string;
   category: string;
@@ -19,6 +20,7 @@ function TodoApp() {
   const [toastShown, setToastShown] = useState<boolean[]>(Array(todos.length).fill(false));
   const todoText = useRef<HTMLInputElement>(null);
   const todoCategory = useRef<HTMLInputElement>(null);
+  const todoDate = useRef<HTMLInputElement>(null);
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -52,7 +54,8 @@ function TodoApp() {
       user_id: user.id,
       text: todoText.current.value,
       category: todoCategory.current.value,
-      completed: false
+      completed: false,
+      date: todoDate.current?.value
     };
 
     try {
@@ -64,8 +67,9 @@ function TodoApp() {
 
       toast.success('Todo added successfully!');
       fetchTodos(); // Refresh the list
-      todoText.current.value = "";
-      todoCategory.current.value = "";
+      if (todoText.current) todoText.current.value = "";
+      if (todoCategory.current) todoCategory.current.value = "";
+      if (todoDate.current) todoDate.current.value = "";
     } catch (error) {
       toast.error('Error adding todo!');
     }
@@ -120,6 +124,20 @@ function TodoApp() {
     }
   }
 
+  async function addTodoWithDate(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!todoDate.current || !todoCategory.current || !todoText.current || !user) return;
+
+    const newTodo = {
+      user_id: user.id,
+      text: todoText.current.value,
+      category: todoCategory.current.value,
+      completed: false,
+      date: todoDate.current.value
+    };
+
+  }
+
   return (
     <div className="max-w-4xl mx-auto p-4">
       <Header />
@@ -168,6 +186,7 @@ function TodoApp() {
               />
               <span className="flex-1">{todo.text}</span>
               <span className="bg-teal-400 text-gray-900 px-2 py-1 rounded-full">{todo.category}</span>
+              <span className="bg-teal-400 text-gray-900 px-2 py-1 rounded-full">{todo.date}</span>
             </li>
           ))}
         </ul>
