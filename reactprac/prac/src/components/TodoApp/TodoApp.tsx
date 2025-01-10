@@ -13,6 +13,7 @@ interface Todo {
   text: string;
   category: string;
   completed: boolean;
+  importanceLevel: string;
 }
 
 function TodoApp() {
@@ -20,14 +21,46 @@ function TodoApp() {
   const [toastShown, setToastShown] = useState<boolean[]>(Array(todos.length).fill(false));
   const todoText = useRef<HTMLInputElement>(null);
   const todoCategory = useRef<HTMLInputElement>(null);
+  const todoLevel = useRef<HTMLInputElement>(null);
   const todoDate = useRef<HTMLInputElement>(null);
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
+  const [importanceLevel, setImportanceLevel] = useState<string>('1'); // Default importance level is 1
 
   // Fetch todos on component mount
   useEffect(() => {
     fetchTodos();
   }, [user]);
+
+  const handleImportanceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setImportanceLevel(event.target.value);
+  };
+
+  const getImportanceColor = (level: string) => {
+    switch (level) {
+      case '1':
+        return 'green'; // Green for level 1
+      case '2':
+        return 'yellow'; // Yellow for level 2
+      case '3':
+        return 'red'; // Red for level 3
+      default:
+        return 'gray'; // Default color if level is not recognized
+    }
+  };
+
+  const getImportanceEmoji = (level: string) => {
+    switch (level) {
+      case '1':
+        return '🔄'; // Emoji for level 1
+      case '2':
+        return '⚠️'; // Emoji for level 2
+      case '3':
+        return '🚨'; // Emoji for level 3
+      default:
+        return ''; // No emoji if level is not recognized
+    }
+  };
 
   async function fetchTodos() {
     try {
@@ -48,30 +81,30 @@ function TodoApp() {
 
   async function addTodo(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!todoCategory.current || !todoText.current || !user) return;
+    if (!todoCategory.current || !todoText.current || !todoDate.current || !user) return;
 
     const newTodo = {
-      user_id: user.id,
-      text: todoText.current.value,
-      category: todoCategory.current.value,
-      completed: false,
-      date: todoDate.current?.value
+        user_id: user.id,
+        text: todoText.current.value,
+        category: todoCategory.current.value,
+        completed: false,
+        date: todoDate.current.value ? new Date(todoDate.current.value).toISOString().split('T')[0] : null // Format date
     };
 
     try {
-      const { error } = await supabase
-        .from('todos')
-        .insert([newTodo]);
+        const { error } = await supabase
+            .from('todos')
+            .insert([newTodo]);
 
-      if (error) throw error;
+        if (error) throw error;
 
-      toast.success('Todo added successfully!');
-      fetchTodos(); // Refresh the list
-      if (todoText.current) todoText.current.value = "";
-      if (todoCategory.current) todoCategory.current.value = "";
-      if (todoDate.current) todoDate.current.value = "";
+        toast.success('Todo added successfully!');
+        fetchTodos(); // Refresh the list
+        if (todoText.current) todoText.current.value = "";
+        if (todoCategory.current) todoCategory.current.value = "";
+        if (todoDate.current) todoDate.current.value = "";
     } catch (error) {
-      toast.error('Error adding todo!');
+        toast.error('Error adding todo!');
     }
   }
 
@@ -129,13 +162,30 @@ function TodoApp() {
     if (!todoDate.current || !todoCategory.current || !todoText.current || !user) return;
 
     const newTodo = {
-      user_id: user.id,
-      text: todoText.current.value,
-      category: todoCategory.current.value,
-      completed: false,
-      date: todoDate.current.value
+        user_id: user.id,
+        text: todoText.current.value,
+        category: todoCategory.current.value,
+        completed: false,
+        date: todoDate.current.value ? new Date(todoDate.current.value).toISOString().split('T')[0] : null, // Format date
+        importanceLevel: importanceLevel // Ensure this is included
     };
 
+    try {
+        const { error } = await supabase
+            .from('todos')
+            .insert([newTodo]);
+
+        if (error) throw error;
+
+        toast.success('Todo added successfully!');
+        fetchTodos(); // Refresh the list
+        if (todoText.current) todoText.current.value = "";
+        if (todoCategory.current) todoCategory.current.value = "";
+        if (todoDate.current) todoDate.current.value = "";
+    } catch (error) {
+        toast.error('Error adding todo!');
+        console.error(error); // Log the error for debugging
+    }
   }
 
   return (
@@ -146,7 +196,7 @@ function TodoApp() {
         <h1 className="text-4xl">My Todos</h1>
       </div>
 
-      <form className="bg-gray-800 p-8 rounded-lg shadow-lg mb-8" onSubmit={addTodo}>
+      <form className="bg-gray-800 p-8 rounded-lg shadow-lg mb-8" onSubmit={addTodoWithDate}>
         <div className="flex gap-4 mb-4">
           <input
             className="flex-1 p-4 rounded bg-gray-700 border border-gray-600"
@@ -160,6 +210,40 @@ function TodoApp() {
             placeholder="Category"
             ref={todoCategory}
           />
+          <input
+            className="flex-1 p-4 rounded bg-gray-700 border border-gray-600"
+            type="date"
+            ref={todoDate}
+          />
+        </div>
+        <div className="flex gap-4 mb-4">
+          <label>
+            <input
+              type="radio"
+              value="1"
+              checked={importanceLevel === '1'}
+              onChange={handleImportanceChange}
+            />
+            Low
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="2"
+              checked={importanceLevel === '2'}
+              onChange={handleImportanceChange}
+            />
+            Medium
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="3"
+              checked={importanceLevel === '3'}
+              onChange={handleImportanceChange}
+            />
+            High
+          </label>
         </div>
         <div className="flex gap-4">
           <button className="flex-1 p-4 bg-teal-400 text-gray-900 rounded font-bold transition-colors hover:bg-teal-300" type="submit">Add</button>
@@ -177,6 +261,7 @@ function TodoApp() {
               className={`p-4 rounded bg-gray-800 flex items-center gap-4 ${todo.completed ? "line-through" : ""}`}
               onDoubleClick={() => handleTodoDoubleClick(todo.id)}
               title="Double-click to delete"
+              style={{ borderLeft: `4px solid ${getImportanceColor(todo.importanceLevel)}` }}
             >
               <input
                 type="checkbox"
@@ -184,7 +269,7 @@ function TodoApp() {
                 checked={todo.completed}
                 onChange={() => toggleTodo(todo.id, todo.completed)}
               />
-              <span className="flex-1">{todo.text}</span>
+              <span className="flex-1">{todo.text} {getImportanceEmoji(todo.importanceLevel)}</span>
               <span className="bg-teal-400 text-gray-900 px-2 py-1 rounded-full">{todo.category}</span>
               <span className="bg-teal-400 text-gray-900 px-2 py-1 rounded-full">{todo.date}</span>
             </li>

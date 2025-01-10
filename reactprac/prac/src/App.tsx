@@ -10,7 +10,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import "./App.css";
 import Blog from "./components/Blog/Blog";
 import GoBlog from "./components/Blog/GoBlog";
+import WebDevBlog from "./components/Blog/WebDevBlog";
 import ProtectedRoute from "./components/ProtectedRoute";
+import TermBlog from "./components/Blog/TermBlog";
 function App() {
   return (
     <AuthProvider>
@@ -20,6 +22,8 @@ function App() {
           <Route path="/login" element={<Login/>} />
           <Route path="/blog" element={<Blog/>} />
           <Route path="/blog/go" element={<GoBlog/>} />
+          <Route path="/blog/webdev" element={<WebDevBlog/>} />
+          <Route path="/blog/term" element={<TermBlog/>} />
           <Route path="/todos" element={
             <ProtectedRoute>
               <TodoApp/>
