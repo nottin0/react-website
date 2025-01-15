@@ -29,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({ isDarkMode, toggleDarkMode }) => {
           <Link to="/">Home</Link>
           {!user && <Link to="/signup">Sign Up</Link>}
           {!user && <Link to="/login">Login</Link>}
-          <Link to="/blog">Blog</Link>
+          <a href="https://tinodev.vercel.app/blog">Blog</a>
           {user && <Link to="/todos">Todo App</Link>}
           {user && <span>hi, {user.user_metadata?.displayName}</span>}
           {user && <button onClick={handleLogout} className="bg-teal-400 text-gray-900 px-4 py-2 rounded-lg font-bold transition-colors hover:bg-teal-300">Logout</button>}

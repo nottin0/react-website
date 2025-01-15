@@ -16,11 +16,22 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const getSession = async () => {
       setIsLoading(true);
       try {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session) {
+        // Check if there's a session in local storage
+        const storedSession = localStorage.getItem('supabaseSession');
+        if (storedSession) {
+          const session = JSON.parse(storedSession);
           const { data: { user } } = await supabase.auth.getUser();
           if (user) {
             setUser({ ...session.user, displayName: user.user_metadata.displayName });
+          }
+        } else {
+          const { data: { session } } = await supabase.auth.getSession();
+          if (session) {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+              setUser({ ...session.user, displayName: user.user_metadata.displayName });
+              localStorage.setItem('supabaseSession', JSON.stringify(session));
+            }
           }
         }
       } catch (error) {
@@ -30,6 +41,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
     };
     getSession();
+
     const { data: authListener } = supabase.auth.onAuthStateChange(async (event: string, session: any) => {
       if (session) {
         const { data: { user } } = await supabase.auth.getUser();
